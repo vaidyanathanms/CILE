@@ -1,0 +1,1 @@
+resname Li; resname c2c and type C1A
