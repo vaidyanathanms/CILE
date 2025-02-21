@@ -1,0 +1,12 @@
+# To analyze the RDF and n(r) of CILE-Diluent systems
+
+# Import modules
+import os
+import sys
+import numpy
+import re
+import shutil
+import glob
+import math
+import subprocess
+from make_gmx_inputs import * # function definitions

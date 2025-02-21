@@ -1,0 +1,19 @@
+# To analyze the RDF and n(r) of CILE-Diluent systems
+
+# Import modules
+import os
+import sys
+import numpy
+import re
+import shutil
+import glob
+import math
+import subprocess
+from make_gmx_inputs import * # function definitions
+
+# Input data
+N_Li = 100 # number of Li molecules
+r_IL_to_Li_arr = [2.0,5.0] # ratio of IL to Li
+r_dil_to_Li_arr = [[0.0,0.2,0.6,2.0],
+                   [0.0,0.5,1.5,5.0]] # ratio of dil to Li
+
