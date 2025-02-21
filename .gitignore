@@ -1,2 +1,3 @@
-fftool/*
-ilff/*
+src_gmx/make_itp_from_fftool/*
+src_gmx/make_itp_from_fftool/
+src_pack/*.pdb
