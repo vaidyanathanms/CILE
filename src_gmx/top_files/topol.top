@@ -2,15 +2,18 @@
 ; nbfunc	comb-rule	gen-pairs	fudgeLJ	fudgeQQ
 1               2               yes             0.5     0.5
 
-#include "../itp_files/ffnonbonded.itp"
-#include "../itp_files/fe.itp"
-#include "../itp_files/tfsi.itp"
-#include "../itp_files/tip3p.itp"
+#include "../itp_files/ffSCALEDcharges.itp"
+#include "../itp_files/tte.btp"
+#include "li_scaled.top"
+#include "c2c1im_scaled.top"
+#include "fsi_scaled.top"
+#include "tte_scaled.top"
 
 [ system ]
-FeCl_Sol
+LiTFSi_C2C1Im_TTE
 
 [ molecules ]
-T2N	10
-FE	100
-SOL	40
+Li+        100
+c2c1im+	   200
+fsi-	   300
+TTE	   60
