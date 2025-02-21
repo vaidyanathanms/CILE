@@ -28,12 +28,12 @@ ewald_rtol              = 1e-5      ; error tolerance for FFT
 optimize_fft            = yes       ; from Micholas's script
 ; Temperature coupling is on
 Tcoupl                  = V-rescale ; modified Berendsen thermostat
-tc-grps                 = FE T2N SOL    ; multiple coupling groups
-tau_t                   = 0.1 0.1 0.1    ; time constant, in ps
-ref_t                   = 300 300 300    ; reference temperature, one for each group, in K
+tc-grps                 = Li TTE fsi c2c    ; multiple coupling groups
+tau_t                   = 0.1 0.1 0.1 0.1   ; time constant, in ps
+ref_t                   = 300 300 300 300   ; reference temperature, one for each group, in K
 ; Pressure coupling is on
 Pcoupl                  = Berendsen         ; Berendsen coupling for faster equilibration
-tau_p                   = 6.0               ; Micholas script (time constant)
+tau_p                   = 4.0               ; Micholas script (time constant)
 compressibility         = 4.5e-5            ; Compressibility of water -- DOES NOT affect eqbm pressure
 ref_p                   = 1.0               ; reference pressure
 ; Periodic boundary conditions

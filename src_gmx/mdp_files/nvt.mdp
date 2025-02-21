@@ -1,7 +1,7 @@
 title                   = NVT_Equilibration ; Title 
 ; Run parameters
 integrator              = md        ; leap-frog integrator
-nsteps                  = 2000000   ; 1 * 2000000 fs = 2 ns
+nsteps                  = 10000000   ; 1 * 2000000 fs = 10 ns
 dt                      = 0.001     ; 1 fs
 ; Output control
 nstxout                 = 5000       ; save coordinates every 10.0 ps
@@ -28,9 +28,9 @@ ewald_rtol              = 1e-5      ; error tolerance for FFT
 optimize_fft            = yes       ; from Micholas's script
 ; Temperature coupling is on
 Tcoupl                  = V-rescale ; modified Berendsen thermostat
-tc-grps                 = FE T2N SOL    ; multiple coupling groups
-tau_t                   = 0.1 0.1 0.1   ; time constant, in ps
-ref_t                   = 300 300 300   ; reference temperature, one for each group, in K
+tc-grps                 = Li TTE fsi c2c   ; multiple coupling groups
+tau_t                   = 0.1 0.1 0.1 0.1  ; time constant, in ps
+ref_t                   = 300 300 300 300  ; reference temperature, one for each group, in K
 ; Pressure coupling is off
 Pcoupl                  = no        ; No pressure coupling
 ; Periodic boundary conditions

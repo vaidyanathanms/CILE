@@ -6,34 +6,34 @@
 ;; Correspondance:
 ;; jul316@lehigh.edu or wonpil@lehigh.edu
 ;;
-;; GROMACS topology file for LIG
+;; GROMACS topology file for TTE
 ;;
 
 
 [ moleculetype ]
 ; name	nrexcl
-LIG	     3
+TTE	     3
 
 [ atoms ]
 ; nr	type	resnr	residu	atom	cgnr	charge	mass
-     1      CG312      1      LIG     C1      1      0.214    12.0110   ; qtot  0.214
-     2       FGA2      1      LIG     F1      2     -0.181    18.9980   ; qtot  0.033
-     3       FGA2      1      LIG     F2      3     -0.181    18.9980   ; qtot -0.148
-     4      CG312      1      LIG     C2      4      0.246    12.0110   ; qtot  0.098
-     5       FGA2      1      LIG     F3      5     -0.187    18.9980   ; qtot -0.089
-     6       FGA2      1      LIG     F4      6     -0.187    18.9980   ; qtot -0.276
-     7      CG321      1      LIG     C3      7      0.110    12.0110   ; qtot -0.166
-     8      OG301      1      LIG      O      8     -0.343    15.9994   ; qtot -0.509
-     9      CG312      1      LIG     C4      9      0.563    12.0110   ; qtot  0.054
-    10       FGA2      1      LIG     F5     10     -0.191    18.9980   ; qtot -0.137
-    11       FGA2      1      LIG     F6     11     -0.191    18.9980   ; qtot -0.328
-    12      CG312      1      LIG     C5     12      0.212    12.0110   ; qtot -0.116
-    13       FGA2      1      LIG     F7     13     -0.181    18.9980   ; qtot -0.297
-    14       FGA2      1      LIG     F8     14     -0.181    18.9980   ; qtot -0.478
-    15       HGA7      1      LIG     H1     15      0.149     1.0080   ; qtot -0.329
-    16       HGA2      1      LIG     H2     16      0.090     1.0080   ; qtot -0.239
-    17       HGA2      1      LIG     H3     17      0.090     1.0080   ; qtot -0.149
-    18       HGA7      1      LIG     H4     18      0.149     1.0080   ; qtot -0.000
+     1      CG312      1      TTE     C1      1      0.214    12.0110   ; qtot  0.214
+     2       FGA2      1      TTE     F1      2     -0.181    18.9980   ; qtot  0.033
+     3       FGA2      1      TTE     F2      3     -0.181    18.9980   ; qtot -0.148
+     4      CG312      1      TTE     C2      4      0.246    12.0110   ; qtot  0.098
+     5       FGA2      1      TTE     F3      5     -0.187    18.9980   ; qtot -0.089
+     6       FGA2      1      TTE     F4      6     -0.187    18.9980   ; qtot -0.276
+     7      CG321      1      TTE     C3      7      0.110    12.0110   ; qtot -0.166
+     8      OG301      1      TTE      O      8     -0.343    15.9994   ; qtot -0.509
+     9      CG312      1      TTE     C4      9      0.563    12.0110   ; qtot  0.054
+    10       FGA2      1      TTE     F5     10     -0.191    18.9980   ; qtot -0.137
+    11       FGA2      1      TTE     F6     11     -0.191    18.9980   ; qtot -0.328
+    12      CG312      1      TTE     C5     12      0.212    12.0110   ; qtot -0.116
+    13       FGA2      1      TTE     F7     13     -0.181    18.9980   ; qtot -0.297
+    14       FGA2      1      TTE     F8     14     -0.181    18.9980   ; qtot -0.478
+    15       HGA7      1      TTE     H1     15      0.149     1.0080   ; qtot -0.329
+    16       HGA2      1      TTE     H2     16      0.090     1.0080   ; qtot -0.239
+    17       HGA2      1      TTE     H3     17      0.090     1.0080   ; qtot -0.149
+    18       HGA7      1      TTE     H4     18      0.149     1.0080   ; qtot -0.000
 
 [ bonds ]
 ; ai	aj	funct	b0	Kb
