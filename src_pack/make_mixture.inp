@@ -26,9 +26,15 @@ structure ../src_gmx/allcoord_files/c2c1im.pdb
   inside box 0. 0. 0. 60 60 60
 end structure
 
-# Add counter-ions (NOTE: This should be the sum of counterions of IL and Li)
+# Add counter-ions based on lithium
 structure ../src_gmx/allcoord_files/fsi.pdb
-  number 300
+  number 100
+  inside box 0. 0. 0. 60 60 60
+end structure
+
+# Add counter-ions based on ionic liquid
+structure ../src_gmx/allcoord_files/fsi.pdb
+  number 200
   inside box 0. 0. 0. 60 60 60
 end structure
 
