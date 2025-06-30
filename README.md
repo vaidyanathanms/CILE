@@ -1,4 +1,11 @@
-Install fftool, clandp and packmol first
+## Prerequisites: 
+- [fftool](https://github.com/paduagroup/fftool/tree/master)
+
+- [clandp](https://github.com/paduagroup/clandp/tree/master) 
+
+- [PACKMOL](https://github.com/m3g/packmol)
+
+## Setting up a new system
 
 For the example, I am considering c4c1im as organic cation and ntf2 as anion.
 
