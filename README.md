@@ -7,6 +7,9 @@ where CILE is the main directory where the source codes are installed
 
 Step-2: cd src_gmx/make_itp_from_fftool
 
+Step-3: Either edit gen_itp_pdb.sh and run for each moiety in the system or follow Steps-3(a)-8 for each moiety.
+gen_itp_pdb.sh is a shell script that automates Steps-3(a) - 8.
+
 Step-3(a): Convert organic cation zmat (in clandp directory) to xyz and copy to current directory.
 
 /path/to/fftool/fftool 1 /path/to/clandp/c4c1im.zmat 0 /path/to/clandp/ntf2.zmat --rho 1.0
@@ -27,14 +30,14 @@ cp /path/to/clandp/ntf2.xyz .
 cp config.pdb ntf2.pdb
 cp field.top ntf2.top
 
-Step-6 Copy pdb to allcoord_files directory for backup
+Step-5 Copy pdb to allcoord_files directory for backup
 cp ntf2.pdb ../allcoord_files/
 cp c4c1im.pdb ../allcoord_files/
 
-Step-7: Use CHARMM-GUI to create the diluent and Lithium pdb/top
+Step-6: Use CHARMM-GUI to create the diluent and Lithium pdb/top
  
-Step-5: Go to packmol folder and edit the packmol script
+Step-7: Go to packmol folder and edit the packmol script
 cd ../../src_pack
 Edit the paths to input xyz files and output files
 
-Step-6: Edit make_mixture.inp with the right values for box size and anion/cation/organic cation details. 
+Step-8: Edit make_mixture.inp with the right values for box size and anion/cation/organic cation details. 
