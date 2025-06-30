@@ -18,28 +18,41 @@ cp /path/to/clandp/c4c1im.xyz .`
 Step-3(b): Use packmol to create `simbox.xyz` and then use `fftool` to create `config.pdb` and `field.top`
 ```
 /path/to/packmol/packmol < pack.inp
+
 /path/to/fftool/fftool 1 ~/tools/clandp/ntf2.zmat -r 1 -g
+
 cp config.pdb c4c1im.pdb
+
 cp field.top c4c1im.top
 ```
 
 Step-4: Same as step-3(a) and 3(b) for anion
-
+```
 /path/to/fftool/fftool 1 /path/to/clandp/ntf2.zmat --rho 1.0
+
 cp /path/to/clandp/ntf2.xyz .
+
 /path/to/packmol/packmol < pack.inp
+
 /path/to/fftool/fftool 1 ~/tools/clandp/ntf2.zmat -r 1 -g
+
 cp config.pdb ntf2.pdb
+
 cp field.top ntf2.top
+```
 
 Step-5 Copy pdb to allcoord_files directory for backup
+```
 cp ntf2.pdb ../allcoord_files/
+
 cp c4c1im.pdb ../allcoord_files/
+```
 
 Step-6: Use CHARMM-GUI to create the diluent and Lithium pdb/top
  
 Step-7: Go to packmol folder and edit the packmol script
-cd ../../src_pack
-Edit the paths to input xyz files and output files
 
-Step-8: Edit make_mixture.inp with the right values for box size and anion/cation/organic cation details. 
+`cd ../../src_pack`
+
+Step-8: Edit the paths to input xyz files and output files
+Edit `make_mixture.inp` with the right values for box size and anion/cation/organic cation details. 
