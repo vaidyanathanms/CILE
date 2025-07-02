@@ -1,0 +1,5 @@
+Some itp files have both the topology and the bonded parameters in the same file. 
+These are named as .itp files
+
+For some cases, the bonded parameters are in a different file.
+For these, the non-bonded parameters are in .itp file and bonded parameters are in .btp file
