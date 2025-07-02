@@ -64,7 +64,7 @@ Step-7a: In the `src_gmx/itp_files` directory, create a new directory for each s
  
 Step-7b: Copy all required itp files here. 
 
-### __IMPORTANT__ Steps 8 and 9 are very important!
+### __IMPORTANT:__ Steps 8 and 9 are very important!
 
 Step-8: Scale the charges in the `[ atom ]` directive by copying to an Excel sheet (manual work for now - to be automated)
 
