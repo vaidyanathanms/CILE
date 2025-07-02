@@ -5,7 +5,7 @@
 
 #SBATCH -A chem
 #SBATCH -p burst
-#SBATCH -t 23:00:00
+#SBATCH -t 00:10:00
 #SBATCH -N 1                    # 1 node
 #SBATCH --ntasks-per-node=1     # 1 task/node
 #SBATCH -c 1                    # 1 core/task
@@ -38,8 +38,8 @@ gmx="${HOME}/gromacs-2024.5/install/bin/gmx_mpi "
 ~/tools/packmol/packmol < make_mixture.inp
 wait
 
-# editconf box
-srun ${gmx} editconf -f mixture.pdb -bt cubic -d 0.5 -o main.pdb
+# editconf box with corresponding box size in **nm**
+srun ${gmx} editconf -f mixture.pdb -bt cubic -box 6.8 6.8 6.8 -o main.pdb
 wait
 
 # make tpr file
