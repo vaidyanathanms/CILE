@@ -10,7 +10,7 @@
 #SBATCH --ntasks-per-node=4     # 4 tasks/node
 #SBATCH -c 8                    # 8 cores/task
 #SBATCH --mem=0
-#SBATCH -J I2p0Dp0L100
+#SBATCH -J I2p0D1p0L100
 #SBATCH -o outdir/out.%J
 #SBATCH -e outdir/err.%J
 
