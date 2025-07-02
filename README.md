@@ -67,7 +67,9 @@ Step-7b: Copy all required itp files here.
 ### __IMPORTANT__ Steps 8 and 9 are very important!
 
 Step-8: Scale the charges in the `[ atom ]` directive by copying to an Excel sheet (manual work for now - to be automated)
+
 Step-9: Comment the `[ atomtypes ]` and `[ defaults ]` section in the `*itp` files and copy the atomtypes to `ffSCALEDcharges.itp` and `ffUNSCALEDcharges.itp`
+
 Step-10: Create a `.top` file. Make sure the paths are consistent in the $WORKDIR as well.
 
 Step-11: Go to packmol folder and edit the packmol script
@@ -80,8 +82,12 @@ Edit `make_mixture.inp` with the right values for box size and anion/cation/orga
 ## Running GROMACS
 
 Step-1: Create a sub-directory `itp_files` and copy all the `*.itp` for the corresponding system
+
 Step-2: Copy the `*.top` file from `src_gmx/itp_files/DIRNAME/top` to the main directory and rename it as `topol.top`
+
 Step-3: Copy all the run scripts `CILE/src_sh/run_preprocess.sh` and `CILE/src_sh/run_md.sh`
+
 Step-4: Make sure the box sizes are correct
+
 Step-5: Run the systems
 
