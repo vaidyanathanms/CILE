@@ -10,7 +10,7 @@
 #SBATCH --ntasks-per-node=4     # 4 tasks/node
 #SBATCH -c 8                    # 8 cores/task
 #SBATCH --mem=0
-#SBATCH -J I5p0D0p0L100
+#SBATCH -J I2p0Dp0L100
 #SBATCH -o outdir/out.%J
 #SBATCH -e outdir/err.%J
 
@@ -28,7 +28,7 @@ echo "begin job @start time: ${date}"
 echo $PWD
 
 # Run command
-gmx='${HOME}/gromacs-2024.5/install/bin/gmx_mpi'
+gmx="${HOME}/gromacs-2024.5/install/bin/gmx_mpi "
 
 #---------------------------------------------------------Generate initial run----------------------------------
 finit_inp=./enermin.tpr

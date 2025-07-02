@@ -10,7 +10,7 @@
 #SBATCH --ntasks-per-node=1     # 1 task/node
 #SBATCH -c 1                    # 1 core/task
 #SBATCH --mem=0
-#SBATCH -J p_I5p0D0p0L100
+#SBATCH -J p_I2p0D1p0L100
 #SBATCH -o out.%J
 #SBATCH -e err.%J
 
