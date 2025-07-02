@@ -10,7 +10,7 @@
 #SBATCH --ntasks-per-node=4     # 4 tasks/node
 #SBATCH -c 8                    # 8 cores/task
 #SBATCH --mem=0
-#SBATCH -J I2p0D1p0L100
+#SBATCH -J I2p0D2p0L100
 #SBATCH -o outdir/out.%J
 #SBATCH -e outdir/err.%J
 
@@ -51,7 +51,7 @@ if ! test -f "$fmin_inp"; then
 
 	echo "begin generating nvt.tpr.."
 	# generate nvt files
-	srun ${gmx} grompp -f nvt.mdp -c confout_min2.gro -p topol.top -o nvt.tpr 
+	srun ${gmx} grompp -f nvt.mdp -c confout_min.gro -p topol.top -o nvt.tpr 
 	wait
 
         cp md_min.log trajfiles/md_min.log
