@@ -28,14 +28,14 @@ else:
 #------------------------------------------------------------------
 
 # Input Data
-run_all   = 0 # 1-copy files and run, 0-NO run (copies files)
-run_arr   = [1,1,1] # number of independent runs for a given biomass
-otyp_arr  = ['EOH','THF','GVL']  # solvent arr for solvents/cosolvents
-oname_arr = otyp_arr # change if prefix is different from name in PDB
-wtyp_arr  = ['tip3p','tip3p','tip3p'] # water arr type
-wname_arr = ['TIP3_','TIP3_','TIP3_'] # diff from prefix
-temp_arr  = [300,300,300] # NPT equilibration
-hi_t_arr  = [463,413,393] # high temperature array
+
+run_all  = 0 # 1-copy files and run, 0-NO run (copies files)
+nitems   = 3 # Number of different moieties in the simulation
+itp_arr  = ['c4c1Im','ntf2','li'] # itp file names
+topname  = 'Li_BMIm_TFSI_BTFE.top' # topology file name
+nmol_arr = {}
+
+
 norg_arr  = [2237,1187,1451] # number of organic solvents
 nwat_arr  = [4610,5330,2017] # number of water molecules (for cosolvents)
 box_arr   = [11,11,13] # box size for solvent only. cosolvent=+1
