@@ -4,3 +4,8 @@ src_gmx/itp_files/all_itp_files/*
 src_gmx/allcoord_files/*.gro
 src_gmx/allcoord_files/*.xyz
 src_py/*.py~
+src_py/__pycache__/
+src_sh/run_md_pyinp.sh
+src_sh/run_preprocess_pyinp.sh
+src_sh/run_md.sh
+src_sh/run_preprocess.sh
