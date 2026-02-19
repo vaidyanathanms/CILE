@@ -1,219 +1,204 @@
 # To generate initial conditions for CILE-Diluent systems
-# Version: Feb-05-2025
+# Version: Feb-17-2026
 #------------------------------------------------------------------
 
 # Import modules
 import os
 import sys
-import numpy
+import numpy as np
 import re
 import shutil
 import glob
 import math
 import subprocess
-from make_gmx_inputs import * # function definitions
+import extra_functions as ef
 #------------------------------------------------------------------
 
-# Version Info and # of input args for parsing thermostat coeff
+# Version Info
 print("Generating GROMACS run-time inputs")
-print("Version: Feb-05-2025")
-if len(sys.argv) == 1:
-    coeff_fyle = 'None' 
-elif len(sys.argv) == 2:
-    coeff_fyle = str(sys.argv[1])
-else:
-    print('Unknown number of arguments: ', len(sys.argv),\
-          str(sys.argv))
-    exit()
+print("Version: Feb-17-2026")
 #------------------------------------------------------------------
 
 # Input Data
 
-run_all  = 0 # 1-copy files and run, 0-NO run (copies files)
-nitems   = 3 # Number of different moieties in the simulation
-itp_arr  = ['c4c1Im','ntf2','li'] # itp file names
-topname  = 'Li_BMIm_TFSI_BTFE.top' # topology file name
-nmol_arr = {}
+run_all  = 1 # 1-copy files and run, 0-NO run (copies files)
+itp_dil  = ['tte']#,'btfe','dfbn'] # itp file names
+cfg_dil  = ['tte']#,'btfe','dfbn'] # config file names
+res_dil  = ['tte']#,'btfe','dfbn'] # residue names
+mol_dil  = ['TTE']#,'BTFE','dfbn'] # molecule name
 
+itp_org_cat = 'c2c1im'
+cfg_org_cat = 'c2c1im'
+mol_org_cat = 'c2c1im+'
+res_org_cat = 'c2c'
 
-norg_arr  = [2237,1187,1451] # number of organic solvents
-nwat_arr  = [4610,5330,2017] # number of water molecules (for cosolvents)
-box_arr   = [11,11,13] # box size for solvent only. cosolvent=+1
-nchains   = 1     # number of polymer chains
-npoly_res = 22  # number of polymer residues
+itp_org_an  = 'PF6_scaled'
+cfg_org_an  = 'PF6'
+mol_org_an  = 'PF6-'
+res_org_an  = 'PF6'
+
+itp_salt_cat = 'li_scaled'
+cfg_salt_cat  = 'li'
+mol_salt_cat = 'Li+'
+res_salt_cat = 'Li'
+
+itp_salt_an  = 'PF6_scaled'
+cfg_salt_an  = 'PF6' 
+mol_salt_an  = 'PF6-'
+res_salt_an  = 'PF6'
+
+attype_fname = 'ffSCALEDcharges.itp'
+
+rat_il_salt  = 2.0 #keep float
+rat_dil_salt = 2.0
+
+n_li_salt_arr = np.array([100,100,100]) # number of lithium salt
+n_dils_arr    = rat_dil_salt*n_li_salt_arr # number of diluent molecules
+n_org_cat_arr = rat_il_salt*n_li_salt_arr # number of organic cations
+n_org_an_arr  = n_org_cat_arr.copy() # number of organic anions
+n_an_salt_arr  = n_li_salt_arr.copy() # number of salt anions
+box_arr_ang   = np.array([61,61,61]) # box size in angstroms
+box_arr_nm    = box_arr_ang/10 # box size in nm
+
+if itp_salt_an.casefold() == itp_org_an.casefold():
+    itp_list = [itp_org_cat,itp_org_an,itp_salt_cat]
+    cfg_list = [cfg_org_cat,cfg_org_an,cfg_salt_cat]
+    res_list = [res_org_cat,res_org_an,res_salt_cat]
+    mol_list = [mol_org_cat,mol_org_an,mol_salt_cat]
+    nitems   = 1 + len(itp_list)
+    hetero_salt = 0
+else:
+    itp_list = [itp_org_cat,itp_org_an,itp_salt_cat,itp_salt_an]
+    cfg_list = [cfg_org_cat,cfg_org_an,cfg_salt_cat,cfg_salt_an]
+    res_list = [res_org_cat,res_org_an,res_salt_cat,res_salt_an]
+    mol_list = [mol_org_cat,mol_org_an,mol_salt_cat,mol_salt_an]
+    nitems   = 1 + len(itp_list)
+    hetero_salt = 1
 
 #------------------------------------------------------------------
 
 # Directory Paths
+home_dir  = '/ccsopen/home/vm5/'
 main_dir  = os.getcwd() # current dir
-gmx_dir   = '../src_gmx' # gmx file super directory
-top_dir   = gmx_dir + '/solv_files/topol' # topology dir
-cfg_dir   = gmx_dir + '/solv_files/initguess' # configuration dir
-itp_dir   = gmx_dir + '/solv_files/prm_itp' # prm file dir
-mdp_dir   = gmx_dir + '/' + 'mdp_files' # mdp file dir
-sh_dir    = gmx_dir + '/' + 'sh_files' # sh file dir
-scr_dir   = '/gpfs/alpine/bip189/scratch/vaidyams' # scratch dir
+gmx_dir   = home_dir + 'all_codes/files_cile/src_gmx' # gmx file super directory
+sh_dir    = home_dir + 'all_codes/files_cile/src_sh'  # sh file dir
+top_dir   = gmx_dir + '/top_files' # topology dir
+cfg_dir   = gmx_dir + '/allcoord_files' # configuration dir
+itp_dir   = gmx_dir + '/itp_files' # prm/itp file dir
+mdp_dir   = gmx_dir + '/mdp_files' # mdp file dir
+scr_dir   = '/gpfs/wolf2/cades/phy191/scratch/vm5' # scratch dir
+pack_exec = home_dir + '/tools/packmol/packmol'
 
 if not os.path.isdir(scr_dir):
     print("FATAL ERROR: ", scr_dir, " not found")
     exit("Check scratch directory path")
-scr_dir  = scr_dir + '/lignin'
+
+scr_dir  = scr_dir + '/cile_systems'
 if not os.path.isdir(scr_dir):
     os.mkdir(scr_dir)
 #------------------------------------------------------------------
 
 # Required GMX/sh and default gro/top files
 mdp_fyles  = ['minim_pyinp.mdp','nvt_pyinp.mdp',\
-              'npt_berendsen_pyinp.mdp','npt_main_pyinp.mdp',\
-              'nvt_high_pyinp.mdp']
+              'npt_crescale_pyinp.mdp','npt_main_pyinp.mdp']
 sh_md_fyle = 'run_md_pyinp.sh'
 sh_pp_fyle = 'run_preprocess_pyinp.sh'
 sh_rep_fyl = ['repeat_all.sh','repeat_md.sh']
 def_inicon = 'initconf.gro'
 #------------------------------------------------------------------
 
-# Check input dimension consistency
-if inp_type == 'cosolvents':
-    check_arr_dim(len(otyp_arr),len(oname_arr),len(wtyp_arr),\
-                  len(wname_arr),len(norg_arr), len(nwat_arr),\
-                  len(temp_arr),len(hi_t_arr),len(box_arr))
-    solv_len = len(otyp_arr)
-elif inp_type == 'melts':
-    solv_len = 0
-#------------------------------------------------------------------
-
 #Main Code
-for inp_val in range(solv_len): # loop in solvents
+for iarr in range(len(itp_dil)): # loop in solvents
 
-    o_sol_typ,solv_name,wat_type,wat_name,n_orgsolv,nwater,\
-        ref_temp,hi_ref_t,box_dim = assign_vals(otyp_arr,oname_arr,\
-                                                wtyp_arr,wname_arr,\
-                                                norg_arr,nwat_arr,\
-                                                box_arr,temp_arr,\
-                                                hi_t_arr,inp_type,\
-                                                inp_val)
+    os.chdir(main_dir) # Start from main directory
+    
+    dil_name    = res_dil[iarr]
+    
+    itp_arr     = [itp_dil[iarr]]
+    cfg_arr     = [cfg_dil[iarr]] 
+    resname_arr = [res_dil[iarr]]
+    molname_arr = [mol_dil[iarr]]
 
-    for casenum in range(len(run_arr)): # loop in runarr
+    itp_arr.extend(itp_list)
+    cfg_arr.extend(cfg_list)
+    resname_arr.extend(res_list)
+    molname_arr.extend(mol_list)
 
-        print("Preparing initial conditions for: ", biomass,\
-              o_sol_typ, run_arr[casenum])
+    # DO NOT CHANGE ORDER
+    if not hetero_salt:
+        molval_arr = [n_dils_arr[iarr],n_org_cat_arr[iarr],\
+                      n_org_an_arr[iarr]+n_an_salt_arr[iarr],\
+                      n_li_salt_arr[iarr]]
+    else:
+        molval_arr = [n_dils_arr[iarr],n_org_cat_arr[iarr],\
+                      n_org_an_arr[iarr],n_an_salt_arr[iarr],\
+                      n_li_salt_arr[iarr]].tolist()        
 
-        # Make directories
-        head_dir = scr_dir + '/' + inp_type
-        if not os.path.isdir(head_dir):
-            print(head_dir, " does not exist")
-            print("ERR: Create path")
-            continue
+    print(f"Setting up {mol_org_cat}/{mol_org_an} with {mol_salt_cat}/{mol_salt_an} and {mol_dil[iarr]}")
+    
+    # Make directories
+    
+    head_name = res_org_cat.upper() + '_' + res_org_an.upper() + '_' + dil_name
+    head_dir = scr_dir + '/' + head_name
+    if not os.path.isdir(head_dir):
+        os.mkdir(head_dir)
 
-        poly_dir = head_dir + '/' + biomass
-        if not os.path.isdir(poly_dir):
-            print(poly_dir, " does not exist")
-            print("ERR: Create path")
-            continue
+    sysname = res_salt_cat+res_salt_an.upper() + \
+        str(int(n_li_salt_arr[iarr]))+'_' + res_org_cat.upper() + \
+        res_org_an.upper() + ef.convert_number(rat_il_salt) + '_' + \
+        dil_name.upper() + ef.convert_number(rat_dil_salt)
 
-        if inp_type == 'melts':
-            poly_dir = poly_dir + '/' + disperse
-            if not os.path.isdir(poly_dir):
-                print(poly_dir, " does not exist")
-                print("ERR: Create path")
-                continue
+    workdir = head_dir + '/' + sysname
+    if not os.path.isdir(workdir):
+        os.mkdir(workdir)
 
-        rundir = poly_dir + '/run_' + str(run_arr[casenum])
-        if not os.path.isdir(rundir):
-            print(rundir, " does not exist")
-            print('ERR: Create path and input top/pdb files first')
-            continue
+    # Copy and edit mdp files
+    print('Copying and editing mdp files ...')
+    ef.check_cpy_mdp_files(mdp_dir,workdir,mdp_fyles,resname_arr,Tetau_vr=0.1\
+                           ,Tetau_high_vr=0.1,Tetau_berend=0.1,Tetau_parrah = 0.2,\
+                           Prtau_berend=4.0,Prtau_crescale=4.0,Prtau_parrah=8.0,\
+                           ref_temp=300,hi_ref_temp=600,ref_pres=1.0)
 
-        workdir1 = set_working_dir(rundir,inp_type,o_sol_typ)
+    # Copy coordinate files
+    print('Copying coordinate files ...')
+    coord_fnames = ef.cpy_coord_files(cfg_dir,cfg_arr,workdir,\
+                                      destdirname="all_coords")
+        
+    # Copy and edit itp files
+    print('Copying itp or prm files ...')
+    itp_fnames = ef.cpy_itp_files(itp_dir,itp_arr,workdir,\
+                                  destdirname="itp_files")
+    itp_fnames = ef.reorder_itp_fnames(itp_fnames)
+    ef.gencpy(itp_dir,workdir+'/itp_files',attype_fname) # Copy atype files
+    itp_fnames.insert(0,attype_fname)    
 
-        # Set thermostat/top variables (change if there is a temp sweep)
-        Tetau_nvt,Tetau_highnvt,Tetau_berend,Tetau_parrah,Prtau_berend,\
-            Prtau_parrah,ref_pres,melt_topname=couple_coeff(inp_type,\
-                                                            coeff_fyle)
 
-        # Find tc_groups
-        tc_grp,tc_typ=create_tcgrps(inp_type,npoly_res,solv_name,wat_name)
+    
+    # Generate top files
+    print('Generating top file ...')
+    ef.gen_top_file(itp_dir,itp_fnames,molname_arr,molval_arr,workdir,\
+                    destdirname="itp_files",top_name="topol.top",\
+                    nbfunc=1,comb_rule=3,gen_pairs='yes',\
+                    fLJ=0.5,fQQ=0.5,sysname=sysname)
+    
+    # Generating packmol files
+    print('Generating packmol file ...')
+    ef.setup_packmol(coord_fnames,molval_arr,workdir,\
+                     box_arr_ang[iarr],destdirname="all_coords",\
+                     outname='mixture.pdb',\
+                     packname = 'make_mixture.inp')
 
-        # Copy and edit mdp files
-        check_cpy_mdp_files(mdp_dir,workdir1,mdp_fyles,inp_type,Tetau_nvt\
-                            ,Tetau_highnvt,Tetau_berend,Tetau_parrah,\
-                            Prtau_berend,Prtau_parrah,ref_temp,hi_ref_t,\
-                            ref_pres,tc_grp,tc_typ,main_dir,coeff_fyle)
+    # Run files
+    print('Generating shell script files ...')
+    ef.cpy_sh_files(sh_dir,workdir,sh_pp_fyle,sh_md_fyle,\
+                    box_arr_nm[iarr],runall=run_all,\
+                    outname='mixture.pdb',packname='make_mixture.inp',\
+                    top_fyle= "topol.top",jname=sysname)
 
-        # Check for tpr files. Re-edit run_md.sh irrespective of
-        # whether tpr files are found. Edit run_pp.sh iff cont_run = 0
-        cont_run = cpy_sh_files(sh_dir,workdir1,sh_pp_fyle,sh_md_fyle)
 
-        # Check for pdb/psf/top files of the melt/polymer
-        poly_conffile,poly_topfile=check_inp_files(workdir1,\
-                                                   melt_topname)
-        # Write index groups
-        indx_fyle = create_indxgrps(workdir1,inp_type,npoly_res,
-                                    solv_name,wat_name)
+        
+    # Cleaning up
+    print('Cleaning up directory ..')
+    ef.clean_up(workdir)
 
-        # Copy/edit top/conf/itp files for solvents/cosolvents
-        ff_dir = create_ff_dir(workdir1)
-        if inp_type == 'solvents' or inp_type == 'cosolvents':
-            if cont_run == 0:
-                # sol_top/sol_itp/sol_cfg are arrays
-                sol_top,sol_itp,sol_cfg=cpy_solv_files(top_dir,cfg_dir,\
-                                                       itp_dir,ff_dir,\
-                                                       inp_type,o_sol_typ,\
-                                                       wat_type)
-                # check whether or not system is rerunning
-                poly_topedit = edit_main_top_file(poly_topfile,ff_dir,\
-                                                  sol_top,sol_itp,workdir1)
-
-            else: #already present
-                poly_topedit = poly_topfile
-
-        # Copy all shell script for running
-        for fsh_name in sh_rep_fyl:
-           if not os.path.exists(workdir1 + '/' + fsh_name):
-                gencpy(sh_dir,workdir1,fsh_name)
-
-        # Change to working directory
-        os.chdir(workdir1)
-
-        # Make an outdir for writing job files from summit
-        sum_out_dir = workdir1 + '/outdir'
-        if not os.path.isdir(sum_out_dir):
-            os.mkdir(sum_out_dir)
-
-        # Edit pre-processing shell script files iff cont_run = 0
-        if cont_run == 0: 
-            if inp_type == 'melts':
-                edit_pp_files(biomass,inp_type,poly_conffile,0,0,\
-                              poly_topedit,'None','None',sh_pp_fyle\
-                              ,ff_dir,'None',0,indx_fyle)
-            elif inp_type == 'solvents':
-                edit_pp_files(biomass,inp_type,poly_conffile,n_orgsolv\
-                              ,0,poly_topedit,o_sol_typ,'None',\
-                              sh_pp_fyle,ff_dir,sol_cfg,box_dim,indx_fyle)
-            elif inp_type == 'cosolvents':
-                edit_pp_files(biomass,inp_type,poly_conffile,n_orgsolv\
-                              ,nwater,poly_topedit,o_sol_typ,wat_type,\
-                              sh_pp_fyle,ff_dir,sol_cfg,box_dim,indx_fyle)
-        else: # check for initconf.gro
-            if os.path.exists(def_inicon):
-                poly_conffile = def_inicon
-            
-
-        # Edit run_md shell script files always
-        edit_md_files(biomass,inp_type,poly_conffile,poly_topedit,\
-                      o_sol_typ,sh_md_fyle,indx_fyle)
-
-        # Submit preprocess job
-        if run_all:
-            if cont_run == 0:
-                print("Running all: repeat_all.sh")
-                subprocess.call(["chmod", "777", "repeat_all.sh"])
-                subprocess.call(["./repeat_all.sh"])
-            else:
-                print("Running just MD part: repeat_md.sh")
-                subprocess.call(["chmod", "777", "repeat_md.sh"])
-                subprocess.call(["./repeat_md.sh"])
-
-        # Write end of loop and return directory handle to main directory
-        print( "End of run number: ", run_arr[casenum])
-        os.chdir(main_dir)# current dir
+    
