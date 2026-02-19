@@ -134,7 +134,7 @@ for iarr in range(len(itp_dil)): # loop in solvents
                       n_org_an_arr[iarr],n_an_salt_arr[iarr],\
                       n_li_salt_arr[iarr]].tolist()        
 
-    print(f"Setting up {mol_org_cat}/{mol_org_an} with {mol_salt_cat}/{mol_salt_an} and {mol_dil[iarr]}")
+    print(f"***Setting up {mol_org_cat}/{mol_org_an} with {mol_salt_cat}/{mol_salt_an} and {mol_dil[iarr]}***")
     
     # Make directories
     

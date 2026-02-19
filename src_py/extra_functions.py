@@ -155,8 +155,8 @@ def gen_top_file(ff_indir,itp_fnames,molname_arr,molval_arr,workdir,\
         inc_top = ''
         inc_pre = '#include '
         for i in range(len(itp_fnames)):
-            ftop.write(inc_top + inc_pre +  './' + destdirname +\
-                       "/" + itp_fnames[i] + "\n")
+            ftop.write(inc_top + inc_pre +  '"./' + destdirname +\
+                       "/" + itp_fnames[i] + '"\n')
 
         # Add system name
         ftop.write('\n')
