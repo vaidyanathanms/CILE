@@ -27,10 +27,10 @@ cfg_dil  = ['tte','btfe']#,'dfbn'] # config file names
 res_dil  = ['tte','BTF']#,'dfbn'] # residue names
 mol_dil  = ['TTE','BTFE']#,'dfbn'] # molecule name
 
-itp_org_cat = 'c2c1im_scaled'
-cfg_org_cat = 'c2c1im'
-mol_org_cat = 'c2c1im+'
-res_org_cat = 'c2c'
+itp_org_cat = 'c4c1im_scaled'
+cfg_org_cat = 'c4c1im'
+mol_org_cat = 'c4c1im+'
+res_org_cat = 'c4c'
 
 itp_org_an  = 'PF6_scaled'
 cfg_org_an  = 'PF6'
