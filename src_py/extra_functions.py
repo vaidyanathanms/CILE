@@ -1,4 +1,3 @@
-
 # Supporting files for genconf.py
 # Version: Feb-17-2026
 #------------------------------------------------------------------
@@ -232,9 +231,7 @@ def cpy_sh_files(srcdir,destdir,sh_pp_fyle,sh_md_fyle,boxl,\
         fr  = open(py_fname,'r')
         fw  = open(rev_fname,'w')
         fid = fr.read().replace("py_jobname",'md_'+jname).\
-            replace("py_conf",cfg_file).\
-            replace("py_topol",top_fyle).\
-            replace("py_finconf",fin_conf)
+            replace("py_topol",top_fyle)
         fw.write(fid)
         fr.close(); fw.close()
 

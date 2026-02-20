@@ -22,10 +22,10 @@ print("Version: Feb-17-2026")
 # Input Data
 
 run_all  = 1 # 1-copy files and run, 0-NO run (copies files)
-itp_dil  = ['tte']#,'btfe','dfbn'] # itp file names
-cfg_dil  = ['tte']#,'btfe','dfbn'] # config file names
-res_dil  = ['tte']#,'btfe','dfbn'] # residue names
-mol_dil  = ['TTE']#,'BTFE','dfbn'] # molecule name
+itp_dil  = ['tte','btfe']#,'dfbn'] # itp file names
+cfg_dil  = ['tte','btfe']#,'dfbn'] # config file names
+res_dil  = ['tte','btfe']#,'dfbn'] # residue names
+mol_dil  = ['TTE','BTFE']#,'dfbn'] # molecule name
 
 itp_org_cat = 'c2c1im_scaled'
 cfg_org_cat = 'c2c1im'
@@ -52,7 +52,7 @@ attype_fname = 'ffSCALEDcharges.itp'
 rat_il_salt  = 2.0 #keep float
 rat_dil_salt = 2.0
 
-n_li_salt_arr = np.array([1,100,100]) # number of lithium salt
+n_li_salt_arr = np.array([100,100,100]) # number of lithium salt
 n_dils_arr    = rat_dil_salt*n_li_salt_arr # number of diluent molecules
 n_org_cat_arr = rat_il_salt*n_li_salt_arr # number of organic cations
 n_org_an_arr  = n_org_cat_arr.copy() # number of organic anions
@@ -133,15 +133,14 @@ for iarr in range(len(itp_dil)): # loop in solvents
         molval_arr = [n_dils_arr[iarr],n_org_cat_arr[iarr],\
                       n_org_an_arr[iarr],n_an_salt_arr[iarr],\
                       n_li_salt_arr[iarr]].tolist()        
-
-    print(f"***Setting up {mol_org_cat}/{mol_org_an} with {mol_salt_cat}/{mol_salt_an} and {mol_dil[iarr]}***")
     
     # Make directories
-    
     head_name = res_org_cat.upper() + '_' + res_org_an.upper() + '_' + dil_name
     head_dir = scr_dir + '/' + head_name
     if not os.path.isdir(head_dir):
         os.mkdir(head_dir)
+    else:
+        print(f'{head_dir} already exists')
 
     sysname = res_salt_cat+res_salt_an.upper() + \
         str(int(n_li_salt_arr[iarr]))+'_' + res_org_cat.upper() + \
@@ -151,6 +150,22 @@ for iarr in range(len(itp_dil)): # loop in solvents
     workdir = head_dir + '/' + sysname
     if not os.path.isdir(workdir):
         os.mkdir(workdir)
+    else:
+        print(f'{workdir} already exists')
+
+    # Check if tpr exists - then no need to do anything else
+    if not glob.glob(workdir+'/*.tpr') == []:
+        print(f'***Found tpr files for {mol_org_cat}/{mol_org_an} with {mol_salt_cat}/{mol_salt_an} and {mol_dil[iarr]}***')
+        print('Generating shell script files ...')
+        ef.cpy_sh_files(sh_dir,workdir,sh_pp_fyle,sh_md_fyle,\
+                        box_arr_nm[iarr],runall=1,\
+                        outname='mixture.pdb',\
+                        packname='make_mixture.inp',\
+                        top_fyle= "topol.top",jname=sysname)
+
+        continue
+        
+    print(f"***Setting up {mol_org_cat}/{mol_org_an} with {mol_salt_cat}/{mol_salt_an} and {mol_dil[iarr]}***")
 
     # Copy and edit mdp files
     print('Copying and editing mdp files ...')
