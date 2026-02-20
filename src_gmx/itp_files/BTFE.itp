@@ -25,22 +25,23 @@
 BTFE                   3
 
 [ atoms ]
-;   nr       type  resnr residue  atom   cgnr     charge       mass  
-     1   opls_800      1    BTF   F00      1    -0.1534    18.9984 
-     2   opls_801      1    BTF   C01      1     0.4555    12.0110 
-     3   opls_802      1    BTF   F02      1    -0.1534    18.9984 
-     4   opls_803      1    BTF   F03      1    -0.1534    18.9984 
-     5   opls_804      1    BTF   C04      1    -0.0685    12.0110 
-     6   opls_805      1    BTF   O05      1    -0.3423    15.9990 
-     7   opls_806      1    BTF   C06      1    -0.0691    12.0110 
-     8   opls_807      1    BTF   C07      1     0.4555    12.0110 
-     9   opls_808      1    BTF   F08      1    -0.1531    18.9984 
-    10   opls_809      1    BTF   F09      1    -0.1531    18.9984 
-    11   opls_810      1    BTF   F0A      1    -0.1531    18.9984 
-    12   opls_811      1    BTF   H0B      1     0.1221     1.0080 
-    13   opls_812      1    BTF   H0C      1     0.1221     1.0080 
-    14   opls_813      1    BTF   H0D      1     0.1221     1.0080 
-    15   opls_814      1    BTF   H0E      1     0.1221     1.0080
+;BTFE	Newtype	Unscaled								
+;nr	NEWtype	resnr	residue	atom	cgnr	charge	mass	;	qtot	
+1	BT_F0	1	BTF	F00	1	-0.1534	18.9984	;	qtot	-0.1534
+2	BT_C1	1	BTF	C01	1	0.4555	12.011	;	qtot	0.3021
+3	BT_F2	1	BTF	F02	1	-0.1534	18.9984	;	qtot	0.1487
+4	BT_F3	1	BTF	F03	1	-0.1534	18.9984	;	qtot	-0.0047
+5	BT_C4	1	BTF	C04	1	-0.0685	12.011	;	qtot	-0.0732
+6	BT_O5	1	BTF	O05	1	-0.3423	15.999	;	qtot	-0.4155
+7	BT_C6	1	BTF	C06	1	-0.0691	12.011	;	qtot	-0.4846
+8	BT_C7	1	BTF	C07	1	0.4555	12.011	;	qtot	-0.0291
+9	BT_F8	1	BTF	F08	1	-0.1531	18.9984	;	qtot	-0.1822
+10	BT_F9	1	BTF	F09	1	-0.1531	18.9984	;	qtot	-0.3353
+11	BT_FA	1	BTF	F0A	1	-0.1531	18.9984	;	qtot	-0.4884
+12	BT_HB	1	BTF	H0B	1	0.1221	1.008	;	qtot	-0.3663
+13	BT_HC	1	BTF	H0C	1	0.1221	1.008	;	qtot	-0.2442
+14	BT_HD	1	BTF	H0D	1	0.1221	1.008	;	qtot	-0.1221
+15	BT_HE	1	BTF	H0E	1	0.1221	1.008	;	qtot	0
  
 [ bonds ]
     2     1     1      0.1360 307105.600
