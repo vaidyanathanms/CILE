@@ -20,7 +20,7 @@ print("Version: Feb-17-2026")
 #------------------------------------------------------------------
 
 # Input Data
-
+system   = 'baseline' # baseline or cades
 run_all  = 1 # 1-copy files and run, 0-NO run (copies files)
 itp_dil  = ['tte']#,'btfe','dfbn'] # itp file names
 cfg_dil  = ['tte']#,'btfe','dfbn'] # config file names
@@ -78,15 +78,15 @@ else:
 #------------------------------------------------------------------
 
 # Directory Paths
-home_dir  = '/ccsopen/home/vm5/'
+home_dir  = os.environ["HOME"]
 main_dir  = os.getcwd() # current dir
-gmx_dir   = home_dir + 'all_codes/files_cile/src_gmx' # gmx file super directory
-sh_dir    = home_dir + 'all_codes/files_cile/src_sh'  # sh file dir
+gmx_dir   = home_dir + '/all_codes/files_cile/src_gmx' # gmx file super directory
+sh_dir    = home_dir + '/all_codes/files_cile/src_sh'  # sh file dir
 top_dir   = gmx_dir + '/top_files' # topology dir
 cfg_dir   = gmx_dir + '/allcoord_files' # configuration dir
 itp_dir   = gmx_dir + '/itp_files' # prm/itp file dir
 mdp_dir   = gmx_dir + '/mdp_files' # mdp file dir
-scr_dir   = '/gpfs/wolf2/cades/phy191/scratch/vm5' # scratch dir
+scr_dir   = os.environ["SCRATCH"]  # '/gpfs/wolf2/cades/phy191/scratch/vm5' # scratch dir
 pack_exec = home_dir + '/tools/packmol/packmol'
 
 if not os.path.isdir(scr_dir):
