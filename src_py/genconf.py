@@ -24,40 +24,40 @@ print("Version: Feb-17-2026")
 run_all  = 1 # 1-copy files and run, 0-NO run (copies files)
 itp_dil  = ['tte','btfe']#,'dfbn'] # itp file names
 cfg_dil  = ['tte','btfe']#,'dfbn'] # config file names
-res_dil  = ['tte','BTF']#,'dfbn'] # residue names
+res_dil  = ['TTE','BTF']#,'dfbn'] # residue names
 mol_dil  = ['TTE','BTFE']#,'dfbn'] # molecule name
 
-itp_org_cat = 'c2c1im_scaled'
-cfg_org_cat = 'c2c1im'
-mol_org_cat = 'c2c1im+'
-res_org_cat = 'c2c'
+itp_org_cat = 'c4c1im_scaled'
+cfg_org_cat = 'c4c1im'
+mol_org_cat = 'c4c1im+'
+res_org_cat = 'c4c'
 
-itp_org_an  = 'PF6_scaled'
-cfg_org_an  = 'PF6'
-mol_org_an  = 'PF6-'
-res_org_an  = 'PF6'
+itp_org_an  = 'ntf2_scaled'
+cfg_org_an  = 'ntf2'
+mol_org_an  = 'tf2N-'
+res_org_an  = 'tf2'
 
 itp_salt_cat = 'li_scaled'
 cfg_salt_cat  = 'li'
 mol_salt_cat = 'Li+'
 res_salt_cat = 'Li'
 
-itp_salt_an  = 'PF6_scaled'
-cfg_salt_an  = 'PF6' 
-mol_salt_an  = 'PF6-'
-res_salt_an  = 'PF6'
+itp_salt_an  = 'ntf2_scaled'
+cfg_salt_an  = 'ntf2' 
+mol_salt_an  = 'tf2N-'
+res_salt_an  = 'tf2'
 
 attype_fname = 'ffSCALEDcharges.itp'
 
-rat_il_salt  = 5.0 #keep float
+rat_il_salt  = 2.0 #keep float
 rat_dil_salt = 2.0
 
 n_li_salt_arr = np.array([100,100,100]) # number of lithium salt
 n_dils_arr    = rat_dil_salt*n_li_salt_arr # number of diluent molecules
 n_org_cat_arr = rat_il_salt*n_li_salt_arr # number of organic cations
 n_org_an_arr  = n_org_cat_arr.copy() # number of organic anions
-n_an_salt_arr  = n_li_salt_arr.copy() # number of salt anions
-box_arr_ang   = np.array([61,61,61]) # box size in angstroms
+n_an_salt_arr = n_li_salt_arr.copy() # number of salt anions
+box_arr_ang   = np.array([65,65,65]) # box size in angstroms
 box_arr_nm    = box_arr_ang/10 # box size in nm
 
 if itp_salt_an.casefold() == itp_org_an.casefold():
@@ -135,7 +135,8 @@ for iarr in range(len(itp_dil)): # loop in solvents
                       n_li_salt_arr[iarr]].tolist()        
     
     # Make directories
-    head_name = res_org_cat.upper() + '_' + res_org_an.upper() + '_' + dil_name
+    head_name = res_org_cat.upper() + '_' + res_org_an.upper() \
+        + '_' + dil_name
     head_dir = scr_dir + '/' + head_name
     if not os.path.isdir(head_dir):
         os.mkdir(head_dir)
