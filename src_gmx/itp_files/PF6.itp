@@ -53,9 +53,3 @@ PF6-              3
 
 [ dihedrals ]
 ;  ai    aj    ak    al   func    coefficients
-
-[ system ]
-simbox
-
-[ molecules ]
-PF6-                 1
