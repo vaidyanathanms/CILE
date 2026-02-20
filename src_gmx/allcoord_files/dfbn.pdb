@@ -1,0 +1,27 @@
+REMARK LIGPARGEN GENERATED PDB FILE
+ATOM      1  C00 DFB     1       1.000   1.000   0.000
+ATOM      2  C01 DFB     1      -0.396   1.000   0.000
+ATOM      3  C02 DFB     1      -1.084   1.000   1.211
+ATOM      4  C03 DFB     1      -0.405   1.000   2.422
+ATOM      5  C04 DFB     1       0.983   1.000   2.406
+ATOM      6  C05 DFB     1       1.688   1.000   1.214
+ATOM      7  F06 DFB     1       1.655   0.999   3.565
+ATOM      8  F07 DFB     1      -2.424   1.001   1.203
+ATOM      9  H08 DFB     1       1.546   0.999  -0.940
+ATOM     10  H09 DFB     1      -0.950   1.001  -0.934
+ATOM     11  H0A DFB     1      -0.948   0.999   3.359
+ATOM     12  H0B DFB     1       2.774   1.001   1.235
+TER 
+CONECT    1    2 
+CONECT    2    3 
+CONECT    3    4 
+CONECT    4    5 
+CONECT    1    6 
+CONECT    5    7 
+CONECT    3    8 
+CONECT    1    9 
+CONECT    2   10 
+CONECT    4   11 
+CONECT    6   12 
+CONECT    5    6 
+END
