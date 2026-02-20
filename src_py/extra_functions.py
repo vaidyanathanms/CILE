@@ -97,7 +97,7 @@ def cpy_coord_files(cfg_dir,inp_arr,workdir,destdirname="all_coords"):
 
     coordfyle_list = [] 
     for fname in inp_arr:
-        allfyles     = glob_ci(cfg_dir,fname+"*.pdb")
+        allfyles     = glob_ci(cfg_dir,fname+".pdb")
         if allfyles == []:
             raise RuntimeError(f"No coordinate file for {fname}")
         else:
