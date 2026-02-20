@@ -1,6 +1,7 @@
 src_pack/*.pdb
 src_gmx/make_itp_from_fftool/all_data/*
 src_gmx/itp_files/all_itp_files/*
+src_gmx/itp_files/C2C1Im_FSI_TTE/*
 src_gmx/allcoord_files/*.gro
 src_gmx/allcoord_files/*.xyz
 src_py/*.py~
