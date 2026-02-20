@@ -163,6 +163,10 @@ for iarr in range(len(itp_dil)): # loop in solvents
                         packname='make_mixture.inp',\
                         top_fyle= "topol.top",jname=sysname)
 
+        # Cleaning up
+        print('Cleaning up directory ..')
+        ef.clean_up(workdir)
+
         continue
         
     print(f"***Setting up {mol_org_cat}/{mol_org_an} with {mol_salt_cat}/{mol_salt_an} and {mol_dil[iarr]}***")
