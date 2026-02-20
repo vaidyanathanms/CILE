@@ -20,7 +20,7 @@ print("Version: Feb-17-2026")
 #------------------------------------------------------------------
 
 # Input Data
-system   = 'baseline' # baseline or cades
+
 run_all  = 1 # 1-copy files and run, 0-NO run (copies files)
 itp_dil  = ['tte']#,'btfe','dfbn'] # itp file names
 cfg_dil  = ['tte']#,'btfe','dfbn'] # config file names
@@ -32,27 +32,27 @@ cfg_org_cat = 'c2c1im'
 mol_org_cat = 'c2c1im+'
 res_org_cat = 'c2c'
 
-itp_org_an  = 'PF6_scaled'
-cfg_org_an  = 'PF6'
-mol_org_an  = 'PF6-'
-res_org_an  = 'PF6'
+itp_org_an  = 'ntf2_scaled'
+cfg_org_an  = 'ntf2'
+mol_org_an  = 'tf2N-'
+res_org_an  = 'tf2'
 
 itp_salt_cat = 'li_scaled'
 cfg_salt_cat  = 'li'
 mol_salt_cat = 'Li+'
 res_salt_cat = 'Li'
 
-itp_salt_an  = 'PF6_scaled'
-cfg_salt_an  = 'PF6' 
-mol_salt_an  = 'PF6-'
-res_salt_an  = 'PF6'
+itp_salt_an  = 'ntf2_scaled'
+cfg_salt_an  = 'ntf2' 
+mol_salt_an  = 'tf2N-'
+res_salt_an  = 'tf2'
 
 attype_fname = 'ffSCALEDcharges.itp'
 
 rat_il_salt  = 2.0 #keep float
 rat_dil_salt = 2.0
 
-n_li_salt_arr = np.array([100,100,100]) # number of lithium salt
+n_li_salt_arr = np.array([1,100,100]) # number of lithium salt
 n_dils_arr    = rat_dil_salt*n_li_salt_arr # number of diluent molecules
 n_org_cat_arr = rat_il_salt*n_li_salt_arr # number of organic cations
 n_org_an_arr  = n_org_cat_arr.copy() # number of organic anions
