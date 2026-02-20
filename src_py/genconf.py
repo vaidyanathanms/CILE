@@ -27,7 +27,7 @@ cfg_dil  = ['tte']#,'btfe','dfbn'] # config file names
 res_dil  = ['tte']#,'btfe','dfbn'] # residue names
 mol_dil  = ['TTE']#,'BTFE','dfbn'] # molecule name
 
-itp_org_cat = 'c2c1im'
+itp_org_cat = 'c2c1im_scaled'
 cfg_org_cat = 'c2c1im'
 mol_org_cat = 'c2c1im+'
 res_org_cat = 'c2c'
