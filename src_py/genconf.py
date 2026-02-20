@@ -49,7 +49,7 @@ res_salt_an  = 'tf2'
 
 attype_fname = 'ffSCALEDcharges.itp'
 
-rat_il_salt  = 2.0 #keep float
+rat_il_salt  = 5.0 #keep float
 rat_dil_salt = 2.0
 
 n_li_salt_arr = np.array([100,100,100]) # number of lithium salt
@@ -162,6 +162,10 @@ for iarr in range(len(itp_dil)): # loop in solvents
                         outname='mixture.pdb',\
                         packname='make_mixture.inp',\
                         top_fyle= "topol.top",jname=sysname)
+
+        # Cleaning up
+        print('Cleaning up directory ..')
+        ef.clean_up(workdir)
 
         continue
         
