@@ -24,7 +24,7 @@ print("Version: Feb-17-2026")
 run_all  = 1 # 1-copy files and run, 0-NO run (copies files)
 itp_dil  = ['tte','btfe']#,'dfbn'] # itp file names
 cfg_dil  = ['tte','btfe']#,'dfbn'] # config file names
-res_dil  = ['tte','btfe']#,'dfbn'] # residue names
+res_dil  = ['tte','BTF']#,'dfbn'] # residue names
 mol_dil  = ['TTE','BTFE']#,'dfbn'] # molecule name
 
 itp_org_cat = 'c2c1im_scaled'
