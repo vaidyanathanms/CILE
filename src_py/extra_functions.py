@@ -227,7 +227,7 @@ def cpy_sh_files(srcdir,destdir,sh_pp_fyle,sh_md_fyle,boxl,\
                                srcdir)
         gencpy(srcdir,destdir,sh_md_fyle)
 
-        py_fname = sh_md_fyle
+        py_fname = destdir + '/' + sh_md_fyle
         rev_fname = py_fname.replace('_pyinp','')
         fr  = open(py_fname,'r')
         fw  = open(rev_fname,'w')
