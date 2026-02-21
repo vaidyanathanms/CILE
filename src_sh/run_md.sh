@@ -55,7 +55,6 @@ if ! test -f "$fmin_inp"; then
 	wait
 
         cp md_min.log trajfiles/md_min.log
-	cp traj_min.trr trajfiles/traj_min.trr
 	cp ener_min.edr trajfiles/ener_min.edr
 	cp confout_min.gro trajfiles/confout_min.gro
 	
@@ -63,7 +62,7 @@ fi
 wait
 
 #----------------------------------------------------------NVT Equilibration--------------------------------------------
-fnvt_inp=./npt_crescale.tpr
+fnvt_inp=./npt_c_rescale.tpr
 if ! test -f "$fnvt_inp"; then
 
 	echo "begin running nvt.tpr.."
@@ -71,13 +70,12 @@ if ! test -f "$fnvt_inp"; then
 	srun ${gmx} mdrun -s nvt.tpr -cpo state_nvt.cpt -cpi state_nvt.cpt -cpt 5 -g md_nvt.log -o traj_nvt.trr -e ener_nvt.edr -c confout_nvt.gro  -notunepme
 	wait
 
-	echo "begin generating npt_crescale.tpr.."
+	echo "begin generating npt_c_rescale.tpr.."
 	# generate npt_crescale files
-	srun ${gmx} grompp -f npt_crescale.mdp -c confout_nvt.gro -p topol.top -o npt_crescale.tpr
+	srun ${gmx} grompp -f npt_crescale.mdp -c confout_nvt.gro -p topol.top -o npt_c_rescale.tpr
 	wait
 
 	cp md_nvt.log trajfiles/md_nvt.log
-	cp traj_nvt.trr trajfiles/traj_nvt.trr
 	cp ener_nvt.edr trajfiles/ener_nvt.edr
 	cp confout_nvt.gro trajfiles/confout_nvt.gro
 fi
@@ -98,7 +96,6 @@ if ! test -f "$fnpt_inp"; then
 	wait
 
 	cp md_npt_c_rescale.log trajfiles/md_npt_c_rescale.log
-	cp traj_npt_c_rescale.trr trajfiles/traj_npt_c_rescale.trr
 	cp ener_npt_c_rescale.edr trajfiles/ener_npt_c_rescale.edr
 	cp confout_npt_c_rescale.gro trajfiles/confout_npt_c_rescale.gro
 	wait
@@ -109,7 +106,6 @@ if ! test -f "$fnpt_inp"; then
 	wait
 
         cp md_npt_main.log trajfiles/md_npt_main.log
-        cp traj_npt_main.trr trajfiles/traj_npt_main.trr
         cp ener_npt_main.edr trajfiles/ener_npt_main.edr
         cp confout_npt_main.gro trajfiles/confout_npt_main.gro
 
@@ -122,7 +118,6 @@ else
 
 
         cp md_npt_main.log trajfiles/md_npt_main.log
-        cp traj_npt_main.trr trajfiles/traj_npt_main.trr
         cp ener_npt_main.edr trajfiles/ener_npt_main.edr
         cp confout_npt_main.gro trajfiles/confout_npt_main.gro
 fi
