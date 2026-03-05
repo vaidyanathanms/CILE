@@ -73,7 +73,7 @@ fi;
 if (( difflag == 1 )); then
 	# Compute diffusivity
 	echo "Run diffusivity-all"
-	srun ${gmx} rdf -f traj_npt_main.trr -s npt_main.tpr -o diff_all.xvg -b ${begtime} -e ${endtime} -rmpbc yes -sf ${inpdir}/ref_all.txt
+	srun ${gmx} msd -f traj_npt_main.trr -s npt_main.tpr -o diff_all.xvg -b ${begtime} -e ${endtime} -rmpbc yes -sf ${inpdir}/ref_all.txt
 	wait
 
 	echo "All Diffusivity calculations completed"
