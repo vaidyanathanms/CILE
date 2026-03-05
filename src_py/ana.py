@@ -13,9 +13,12 @@ import extra_functions as ef
 
 #------------------------------------------------------------------
 # Input data
-runall   = 0 # 0 - copy, 1 - copy & run
+runall    = 0 # 0 - copy, 1 - copy & run
+rdfcalc   = 1 # Run rdf calculation
+diffcalc  = 1 # Run diffusivity calculations
+
 res_dil  = ['DFB','TTE','BTF'] # residue names
-res_org_cat = 'c4c'
+res_org_cat = 'c2c'
 res_org_an  = 'PF6'
 res_salt_cat = 'Li'
 res_salt_an  = 'PF6'
@@ -26,7 +29,7 @@ n_li_salt_arr = np.array([100,100,100]) # number of lithium salt
 rat_il_salt  = 2.0 #keep float
 rat_dil_salt = 2.0
 
-sh_ana_fyle = 'run_rdf_pyinp.sh' #shell script name
+sh_ana_fyle = 'run_ana_pyinp.sh' #shell script name
 
 if res_salt_an.casefold() == res_org_an.casefold():
     res_list = [res_org_cat,res_org_an,res_salt_cat]
@@ -77,6 +80,7 @@ for iarr in range(len(res_dil)): # loop in solvents
         res_org_an.upper() + ef.convert_number(rat_il_salt) + '_' + \
         dil_name.upper() + ef.convert_number(rat_dil_salt)
 
+
     workdir = head_dir + '/' + sysname
     if not os.path.isdir(workdir):
         print(f'ERROR: {workdir} not found')
@@ -87,6 +91,7 @@ for iarr in range(len(res_dil)): # loop in solvents
         print(f'ERROR: No traj_npt_main.trr found in {workdir}')
         continue
 
+    print(f'***Setting up files for {sysname}***')
     print('Making analysis input files ..')
     ef.make_anainps(workdir,res_salt_cat,res_org_cat,resname_arr,\
                     rdfset_tuple,rdfcalc=1,diffcalc=1\
@@ -96,7 +101,8 @@ for iarr in range(len(res_dil)): # loop in solvents
     ef.cpy_anash_files(sh_dir,workdir,sh_ana_fyle,res_salt_cat,\
                        res_salt_an,res_org_cat,res_org_an,\
                        dil_name,begtime=20000,endtime=30000,\
-                       runall=runall,jname=sysname)
+                       rdfcalc=rdfcalc,diffcalc=diffcalc,runall=runall\
+                       ,jname=sysname)
     
     # Cleaning up
     print('Cleaning up directory ..')

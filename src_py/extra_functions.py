@@ -196,45 +196,48 @@ def make_anainps(workdir,saltcatname,orgcatname,resnames,\
                  rdftuple=list(),rdfcalc=1,diffcalc=1,\
                  autocorrcalc=1):
     if rdfcalc:
-        if not os.path.isdir(workdir + '/rdfinps'):
-            os.mkdir(workdir + '/rdfinps')
+        if not os.path.isdir(workdir + '/anainps'):
+            os.mkdir(workdir + '/anainps')
 
 
-    with open(workdir + '/rdfinps/rdfsel_all.txt','w') as frdf:
-        for res in range(len(resnames)-1):
-            frdf.write(f'resname {resnames[res]};\n')
-        frdf.write(f'resname {resnames[-1]}')
+        with open(workdir + '/anainps/ref_all.txt','w') as frdf:
+            for res in range(len(resnames)-1):
+                frdf.write(f'resname {resnames[res]};\n')
+            frdf.write(f'resname {resnames[-1]}')
             
-        if rdftuple:
-            for res,typ in rdftuple:
-                frdf.write(f';\nresname {res} and type {typ}')
+            if rdftuple:
+                for res,typ in rdftuple:
+                    frdf.write(f';\nresname {res} and type {typ}')
 
-    rdfsaltcat = '/rdfinps/ref'+saltcatname+'.txt'
-    with open(workdir + rdfsaltcat,'w') as fs:
-            fs.write(f'resname {saltcatname}')
+            rdfsaltcat = '/anainps/ref'+saltcatname+'.txt'
+            with open(workdir + rdfsaltcat,'w') as fs:
+                fs.write(f'resname {saltcatname}')
 
-    rdforgcat = '/rdfinps/ref'+orgcatname+'.txt'
-    with open(workdir + rdforgcat,'w') as fs:
-            fs.write(f'resname {orgcatname}')
+            rdforgcat = '/anainps/ref'+orgcatname+'.txt'
+            with open(workdir + rdforgcat,'w') as fs:
+                fs.write(f'resname {orgcatname}')
+
 #------------------------------------------------------------------
 # Copy and run shell script files
 def cpy_anash_files(srcdir,destdir,sh_ana_fyle,saltcat,\
                     saltan,orgcat,organ,diluent,begtime,endtime,\
-                    runall=0,jname="default"):
+                    rdfcalc=1,diffcalc=1,runall=0,jname="default"):
 
     gencpy(srcdir,destdir,sh_ana_fyle)
     py_fname = destdir + '/' + sh_ana_fyle
     rev_fname = py_fname.replace('_pyinp','')
     fr  = open(py_fname,'r')
     fw  = open(rev_fname,'w')
-    fid = fr.read().replace("py_jobname","r_"+jname).\
+    fid = fr.read().replace("py_jobname","ana_"+jname).\
         replace("py_saltcation",saltcat).\
         replace("py_saltanion",saltan).\
         replace("py_orgcation",orgcat).\
         replace("py_organion",organ).\
         replace("py_diluent",diluent).\
         replace("py_begtime",str(begtime)).\
-        replace("py_endtime",str(endtime))
+        replace("py_endtime",str(endtime)).\
+        replace("py_rdfcalc",str(rdfcalc)).\
+        replace("py_difcalc",str(diffcalc))
     fw.write(fid)
     fr.close(); fw.close()
 
